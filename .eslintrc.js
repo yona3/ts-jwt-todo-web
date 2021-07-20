@@ -3,7 +3,7 @@ module.exports = {
   parser: "@typescript-eslint/parser",
   parserOptions: {
     sourceType: "module",
-    project: "./tsconfig.json",
+    project: "web/tsconfig.json",
   },
   env: { browser: true, node: true, es2020: true },
   plugins: ["simple-import-sort", "tailwindcss"],
