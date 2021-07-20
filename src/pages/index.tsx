@@ -1,14 +1,27 @@
 import type { NextPage } from "next";
+import type { ChangeEvent, FormEvent } from "react";
 import { useState } from "react";
 import { Input } from "src/components/Input";
+import { useForm } from "src/hooks/form";
+import type { Keys } from "src/types";
 
 import { Layout } from "../components/Layout";
 
 const Index: NextPage = () => {
-  const [formType, setFormType] = useState<"register" | "login">("login");
+  const [formType, setFormType] = useState<"register" | "login">("register");
+  const { values, handleSetValue } = useForm({
+    name: "",
+    email: "",
+    password: "",
+  });
 
-  const handleChangeFormType = () =>
+  const handleChangeFormType = (e: FormEvent<HTMLButtonElement>) => {
+    e.preventDefault();
     setFormType((prev) => (prev === "register" ? "login" : "register"));
+  };
+
+  const handleChangeFormValue = (e: ChangeEvent<HTMLInputElement>) =>
+    handleSetValue(e.target.name as Keys, e.target.value);
 
   return (
     <Layout>
@@ -20,27 +33,49 @@ const Index: NextPage = () => {
 
           <div className="flex flex-col mt-4 space-y-3">
             {formType === "register" && (
-              <Input type="text" value="" placeholder="name" />
+              <Input
+                name="name"
+                type="text"
+                value={values.name}
+                onChange={handleChangeFormValue}
+                placeholder="name"
+              />
             )}
-            <Input type="email" value="" placeholder="email" />
-            <Input type="password" value="" placeholder="password" />
+            <Input
+              name="email"
+              type="email"
+              value={values.email}
+              onChange={handleChangeFormValue}
+              placeholder="email"
+            />
+            <Input
+              name="password"
+              type="password"
+              value={values.password}
+              onChange={handleChangeFormValue}
+              placeholder="password"
+            />
           </div>
 
           <div className="flex justify-between items-center pr-4 mt-4">
             <button
-              className="py-2 px-6 text-white bg-gray-700 rounded border border-gray-600"
+              className="
+                border border-gray-600 focus:outline-none
+                py-2 px-6 text-white bg-gray-700 rounded 
+              "
               type="submit"
             >
               submit
             </button>
 
             {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
-            <p
+            <button
               className="text-white underline cursor-pointer"
               onClick={handleChangeFormType}
+              onSubmit={handleChangeFormType}
             >
               {formType === "register" ? "Login" : "Register"}
-            </p>
+            </button>
           </div>
         </form>
       </div>
