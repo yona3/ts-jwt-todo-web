@@ -1,4 +1,4 @@
-This is my Next.js + TypeScript + Tailwind CSS starter template.
+TypeScript + JWT todo app web.
 
 ## Tech stack
 
