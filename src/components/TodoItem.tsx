@@ -14,8 +14,8 @@ export const TodoItem: VFC<Props> = ({ todo }) => {
   return (
     <div
       className="
-        p-3 text-white bg-gray-700 rounded 
-        border border-gray-600 flex justify-between
+        p-3 text-white bg-gray-500 rounded 
+        border border-gray-500 flex justify-between
       "
     >
       <div className="flex items-center">

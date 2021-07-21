@@ -36,9 +36,9 @@ export const Main: VFC<Props> = ({ user }) => {
   return (
     <div>
       <h1 className="text-xl text-center text-white">Hello, {user.name} :)</h1>
-      <div className="mt-5">
+      <div className="mt-8">
         <TodoForm />
-        <div className="mt-5">
+        <div className="mt-6">
           <TodoList todos={todos} />
         </div>
       </div>

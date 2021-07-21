@@ -10,7 +10,7 @@ type Props = {
 export const TodoList: VFC<Props> = ({ todos }) => {
   return (
     <div>
-      <div className="py-5 px-5 space-y-2 bg-gray-600 rounded">
+      <div className="space-y-3">
         {todos?.map((todo) => (
           <TodoItem key={todo.todoId} todo={todo} />
         ))}
