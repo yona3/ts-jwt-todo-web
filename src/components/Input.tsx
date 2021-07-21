@@ -18,8 +18,8 @@ export const Input: VFC<Props> = ({
   return (
     <input
       className="
-        focus:outline-none text-white
-        p-2 bg-gray-500 rounded border border-gray-600
+        focus:outline-none text-white w-full
+        p-2 bg-gray-500 rounded
       "
       name={name}
       type={type}

@@ -22,7 +22,7 @@ export const AuthForm: VFC = () => {
     handleSetValue(e.target.name as Keys, e.target.value);
 
   return (
-    <form className="py-5 px-5 mx-auto max-w-xl bg-gray-600 rounded-md">
+    <form className="py-5 px-5 bg-gray-600 rounded-md">
       <h1 className="text-2xl font-semibold text-white">
         {formType === "register" ? "Register" : "Login"}
       </h1>
