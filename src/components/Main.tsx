@@ -11,25 +11,22 @@ type Props = {
 export const Main: VFC<Props> = ({ user }) => {
   const todos: Todo[] = [
     {
-      todoId: "todo1",
+      uuid: "todo1",
       title: "todo1",
       isDone: false,
       createdAt: new Date(),
-      updatedAt: new Date(),
     },
     {
-      todoId: "todo2",
+      uuid: "todo2",
       title: "todo2",
       isDone: false,
       createdAt: new Date(),
-      updatedAt: new Date(),
     },
     {
-      todoId: "todo3",
+      uuid: "todo3",
       title: "todo3",
       isDone: false,
       createdAt: new Date(),
-      updatedAt: new Date(),
     },
   ];
 

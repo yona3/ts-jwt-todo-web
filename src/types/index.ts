@@ -1,16 +1,21 @@
 export type Keys = "name" | "email" | "password";
 
 export type User = {
-  userId: string;
-  name: string;
+  uuid: string;
   email: string;
-  todos: string[];
+  password: string;
+  name: string;
 };
 
 export type Todo = {
-  todoId: string;
+  uuid: string;
   title: string;
   isDone: boolean;
   createdAt: Date;
-  updatedAt: Date;
+};
+
+export type AccessTokenResponse = {
+  ok: boolean;
+  accessToken?: string;
+  error?: string;
 };

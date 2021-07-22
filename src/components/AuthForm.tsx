@@ -1,11 +1,23 @@
-import type { ChangeEvent, FormEvent, VFC } from "react";
+import type {
+  ChangeEventHandler,
+  Dispatch,
+  FormEventHandler,
+  MouseEventHandler,
+  SetStateAction,
+  VFC,
+} from "react";
 import { useState } from "react";
 import { useForm } from "src/hooks/form";
-import type { Keys } from "src/types";
+import { apiPath, fetcher } from "src/lib/fetcher";
+import type { AccessTokenResponse, Keys } from "src/types";
 
 import { Input } from "./Input";
 
-export const AuthForm: VFC = () => {
+type Props = {
+  setAccessToken: Dispatch<SetStateAction<string>>;
+};
+
+export const AuthForm: VFC<Props> = ({ setAccessToken }) => {
   const [formType, setFormType] = useState<"register" | "login">("register");
   const { values, handleSetValue } = useForm({
     name: "",
@@ -13,16 +25,48 @@ export const AuthForm: VFC = () => {
     password: "",
   });
 
-  const handleChangeFormType = (e: FormEvent<HTMLButtonElement>) => {
+  const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
+    e.preventDefault();
+
+    const body: { name?: string } & Omit<typeof values, "name"> = { ...values };
+
+    try {
+      if (formType === "login") {
+        delete body.name;
+
+        const res = await fetcher(apiPath.token.url(), {
+          method: "POST",
+          body,
+        });
+        const data: AccessTokenResponse = await res.json();
+        if (!data.ok || !data.accessToken) throw new Error(data.error);
+
+        setAccessToken(data.accessToken);
+      } else if (formType === "register") {
+        const res = await fetcher(apiPath.users.url(), {
+          method: "POST",
+          body,
+        });
+        const user = await res.json();
+        if (!user) throw new Error("User not created");
+
+        setFormType("login");
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleChangeFormType: MouseEventHandler<HTMLButtonElement> = (e) => {
     e.preventDefault();
     setFormType((prev) => (prev === "register" ? "login" : "register"));
   };
 
-  const handleChangeFormValue = (e: ChangeEvent<HTMLInputElement>) =>
+  const handleChangeFormValue: ChangeEventHandler<HTMLInputElement> = (e) =>
     handleSetValue(e.target.name as Keys, e.target.value);
 
   return (
-    <form className="py-5 px-5 bg-gray-600 rounded-md">
+    <form className="py-5 px-5 bg-gray-600 rounded-md" onSubmit={handleSubmit}>
       <h1 className="text-2xl font-semibold text-white">
         {formType === "register" ? "Register" : "Login"}
       </h1>
@@ -56,9 +100,9 @@ export const AuthForm: VFC = () => {
       <div className="flex justify-between items-center pr-4 mt-4">
         <button
           className="
-        border border-gray-600 focus:outline-none
-        py-2 px-6 text-white bg-gray-700 rounded 
-      "
+            border border-gray-600 focus:outline-none
+            py-2 px-6 text-white bg-gray-700 rounded 
+          "
           type="submit"
         >
           submit
@@ -68,7 +112,7 @@ export const AuthForm: VFC = () => {
         <button
           className="text-white underline cursor-pointer"
           onClick={handleChangeFormType}
-          onSubmit={handleChangeFormType}
+          type="button"
         >
           {formType === "register" ? "Login" : "Register"}
         </button>
