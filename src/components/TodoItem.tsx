@@ -1,4 +1,4 @@
-import type { VFC } from "react";
+import type { ChangeEventHandler, VFC } from "react";
 import { useState } from "react";
 import type { Todo } from "src/types";
 
@@ -9,7 +9,8 @@ type Props = {
 export const TodoItem: VFC<Props> = ({ todo }) => {
   const [isDone, setIsDone] = useState(todo.isDone);
 
-  const handleChangeIsDone = () => setIsDone((prev) => !prev);
+  const handleChangeIsDone: ChangeEventHandler<HTMLInputElement> = () =>
+    setIsDone((prev) => !prev);
 
   return (
     <div
@@ -23,7 +24,7 @@ export const TodoItem: VFC<Props> = ({ todo }) => {
           className="mr-3 w-4 h-4"
           type="checkbox"
           checked={isDone}
-          onClick={handleChangeIsDone}
+          onChange={handleChangeIsDone}
         />
         <p>{todo.title}</p>
       </div>

@@ -12,7 +12,7 @@ export const TodoList: VFC<Props> = ({ todos }) => {
     <div>
       <div className="space-y-3">
         {todos?.map((todo) => (
-          <TodoItem key={todo.todoId} todo={todo} />
+          <TodoItem key={todo.uuid} todo={todo} />
         ))}
       </div>
     </div>
