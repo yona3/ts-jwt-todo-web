@@ -108,7 +108,6 @@ export const AuthForm: VFC<Props> = ({ setAccessToken }) => {
           submit
         </button>
 
-        {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
         <button
           className="text-white underline cursor-pointer"
           onClick={handleChangeFormType}
