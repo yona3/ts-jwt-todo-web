@@ -1,12 +1,6 @@
 module.exports = {
   root: true,
-  parser: "@typescript-eslint/parser",
-  parserOptions: {
-    sourceType: "module",
-    project: "web/tsconfig.json",
-  },
-  env: { browser: true, node: true, es2020: true },
-  plugins: ["simple-import-sort", "tailwindcss"],
+  env: { browser: true, node: true, es2021: true },
   extends: [
     "eslint:recommended",
     "plugin:@typescript-eslint/eslint-recommended",
@@ -17,6 +11,12 @@ module.exports = {
     "plugin:tailwindcss/recommended",
     "prettier",
   ],
+  parser: "@typescript-eslint/parser",
+  parserOptions: {
+    sourceType: "module",
+    project: "web/tsconfig.json",
+  },
+  plugins: ["simple-import-sort", "tailwindcss"],
   rules: {
     "no-console": ["warn", { allow: ["warn", "info", "error"] }],
     "no-restricted-syntax": [
@@ -51,7 +51,6 @@ module.exports = {
     "tailwindcss/no-contradicting-classname": "error",
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-var-requires": "off",
-    "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/consistent-type-imports": [
       "warn",
       { prefer: "type-imports" },
