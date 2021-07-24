@@ -49,6 +49,7 @@ module.exports = {
     "tailwindcss/classnames-order": "warn",
     "tailwindcss/no-custom-classname": "warn",
     "tailwindcss/no-contradicting-classname": "error",
+    "@typescript-eslint/consistent-type-definitions": ["error", "type"],
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-var-requires": "off",
     "@typescript-eslint/consistent-type-imports": [
