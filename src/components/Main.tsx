@@ -14,10 +14,17 @@ type Props = {
     todos: Todo[] | undefined;
     setTodos: Dispatch<SetStateAction<Todo[] | undefined>>;
   };
-  setAccessToken: Dispatch<SetStateAction<string>>;
+  accessTokenState: {
+    accessToken: string;
+    setAccessToken: Dispatch<SetStateAction<string>>;
+  };
 };
 
-export const Main: VFC<Props> = ({ userState, todosState, setAccessToken }) => {
+export const Main: VFC<Props> = ({
+  userState,
+  todosState,
+  accessTokenState,
+}) => {
   const handleLogout = async (): Promise<void> => {
     try {
       const res = await fetcher(apiPath.token.url(), {
@@ -27,7 +34,7 @@ export const Main: VFC<Props> = ({ userState, todosState, setAccessToken }) => {
       if (!data.ok) return;
 
       userState.setUser(undefined);
-      setAccessToken("");
+      accessTokenState.setAccessToken("");
     } catch (err) {
       console.error(err);
     }
@@ -40,7 +47,10 @@ export const Main: VFC<Props> = ({ userState, todosState, setAccessToken }) => {
       </h1>
       {todosState.todos ? (
         <div className="mt-8">
-          <TodoForm />
+          <TodoForm
+            accessToken={accessTokenState.accessToken}
+            setTodos={todosState.setTodos}
+          />
           <div className="mt-6">
             <TodoList todos={todosState.todos} />
           </div>

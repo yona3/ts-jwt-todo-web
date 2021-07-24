@@ -82,7 +82,7 @@ const Index: NextPage = () => {
                 <Main
                   userState={{ user, setUser }}
                   todosState={{ todos, setTodos }}
-                  setAccessToken={setAccessToken}
+                  accessTokenState={{ accessToken, setAccessToken }}
                 />
               )}
               {!user && (
