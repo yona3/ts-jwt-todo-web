@@ -18,7 +18,13 @@ export const fetcher = (
   path: string,
   options: {
     method: Method;
-    body?: { name?: string; email?: string; password?: string; title?: string };
+    body?: {
+      name?: string;
+      email?: string;
+      password?: string;
+      title?: string;
+      isDone?: boolean;
+    };
     accessToken?: string;
   }
 ) => {

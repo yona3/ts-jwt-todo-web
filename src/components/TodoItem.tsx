@@ -1,4 +1,4 @@
-import type { ChangeEventHandler, Dispatch, SetStateAction, VFC } from "react";
+import type { Dispatch, SetStateAction, VFC } from "react";
 import { useState } from "react";
 import { apiPath, fetcher } from "src/lib/fetcher";
 import type { Todo } from "src/types";
@@ -12,8 +12,21 @@ type Props = {
 export const TodoItem: VFC<Props> = ({ todo, setTodos, accessToken }) => {
   const [isDone, setIsDone] = useState(todo.isDone);
 
-  const handleChangeIsDone: ChangeEventHandler<HTMLInputElement> = () =>
-    setIsDone((prev) => !prev);
+  const handleUpdateTodo = async (): Promise<void> => {
+    try {
+      const res = await fetcher(apiPath.todos.url(todo.uuid), {
+        method: "PATCH",
+        body: { title: todo.title, isDone: !isDone },
+        accessToken,
+      });
+      const data = await res.json();
+      if (!data.ok) return;
+
+      setIsDone((prev) => !prev);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   const handleDeleteTodo = async (): Promise<void> => {
     try {
@@ -22,7 +35,6 @@ export const TodoItem: VFC<Props> = ({ todo, setTodos, accessToken }) => {
         accessToken,
       });
       const data = await res.json();
-      console.log("data: ", data);
       if (!data.ok) return;
 
       // deleted todo
@@ -46,7 +58,7 @@ export const TodoItem: VFC<Props> = ({ todo, setTodos, accessToken }) => {
           className="mr-3 w-4 h-4"
           type="checkbox"
           checked={isDone}
-          onChange={handleChangeIsDone}
+          onChange={handleUpdateTodo}
         />
         <p>{todo.title}</p>
       </div>
