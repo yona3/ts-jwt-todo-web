@@ -11,8 +11,30 @@ const Index: NextPage = () => {
   const [user, setUser] = useState<User>();
   // const [todos, setTodos] = useState<Todo[]>();
   const [accessToken, setAccessToken] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  const handleFetchUser = async () => {
+  const handleFetchAccessToken = async (): Promise<void> => {
+    try {
+      const res = await fetcher(apiPath.refreshToken.url(), {
+        method: "POST",
+      });
+      const data = await res.json();
+      if (!data.ok) return;
+
+      setAccessToken(data.accessToken);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (!accessToken) handleFetchAccessToken();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const handleFetchUser = async (): Promise<void> => {
     try {
       const res = await fetcher(apiPath.users.url(), {
         method: "GET",
@@ -34,23 +56,27 @@ const Index: NextPage = () => {
 
   return (
     <Layout>
-      <div>
-        {accessToken && (
-          <div className="mx-auto w-full max-w-xl">
-            {user && <Main user={user} />}
-            {!user && (
-              <div className="text-center text-white">
-                user is null or undefined.
-              </div>
-            )}
-          </div>
-        )}
-        {!accessToken && (
-          <div className="mx-auto w-full max-w-xl">
-            <AuthForm setAccessToken={setAccessToken} />
-          </div>
-        )}
-      </div>
+      {!isLoading ? (
+        <div>
+          {accessToken && (
+            <div className="mx-auto w-full max-w-xl">
+              {user && <Main user={user} />}
+              {!user && (
+                <div className="text-center text-white">
+                  user is null or undefined.
+                </div>
+              )}
+            </div>
+          )}
+          {!accessToken && (
+            <div className="mx-auto w-full max-w-xl">
+              <AuthForm setAccessToken={setAccessToken} />
+            </div>
+          )}
+        </div>
+      ) : (
+        <div className="text-center text-white">Loading...</div>
+      )}
     </Layout>
   );
 };

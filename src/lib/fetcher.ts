@@ -9,7 +9,7 @@ export const apiPath = {
     url: (todoId?: string) => (todoId ? `/todos/${todoId}` : `/todos`),
   },
   token: { url: () => "/token" },
-  refreshToken: { url: () => "/refreshToken" },
+  refreshToken: { url: () => "/refresh-token" },
 };
 
 type Method = "GET" | "POST" | "PATCH" | "DELETE";
