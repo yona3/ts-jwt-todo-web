@@ -3,13 +3,13 @@ import { useEffect, useState } from "react";
 import { AuthForm } from "src/components/AuthForm";
 import { Main } from "src/components/Main";
 import { apiPath, fetcher } from "src/lib/fetcher";
-import type { User } from "src/types";
+import type { Todo, User } from "src/types";
 
 import { Layout } from "../components/Layout";
 
 const Index: NextPage = () => {
   const [user, setUser] = useState<User>();
-  // const [todos, setTodos] = useState<Todo[]>();
+  const [todos, setTodos] = useState<Todo[]>();
   const [accessToken, setAccessToken] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -54,6 +54,24 @@ const Index: NextPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, accessToken]);
 
+  const handleFetchTodos = async (): Promise<void> => {
+    try {
+      const res = await fetcher(apiPath.todos.url(), {
+        method: "GET",
+        accessToken,
+      });
+      const data = await res.json();
+      setTodos(data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
+    if (user && !todos) handleFetchTodos();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user, todos]);
+
   return (
     <Layout>
       {!isLoading ? (
@@ -63,6 +81,7 @@ const Index: NextPage = () => {
               {user && (
                 <Main
                   userState={{ user, setUser }}
+                  todosState={{ todos, setTodos }}
                   setAccessToken={setAccessToken}
                 />
               )}
@@ -73,6 +92,7 @@ const Index: NextPage = () => {
               )}
             </div>
           )}
+
           {!accessToken && (
             <div className="mx-auto w-full max-w-xl">
               <AuthForm setAccessToken={setAccessToken} />
