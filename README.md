@@ -1,9 +1,21 @@
-TypeScript + JWT todo app web.
+TypeScript + JWT todo app (web)
 
 ## Tech stack
 
+### web
+
 - Next.js
 - TypeScript
+- Tailwind CSS
 - ESLint
 - Prettier
-- Tailwind CSS
+
+### server
+
+- Express
+- TypeScript
+- Prisma
+- PostgresQL
+- JWT
+- ESLint
+- Prettier
