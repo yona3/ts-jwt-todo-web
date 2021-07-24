@@ -52,7 +52,10 @@ export const Main: VFC<Props> = ({
             setTodos={todosState.setTodos}
           />
           <div className="mt-6">
-            <TodoList todos={todosState.todos} />
+            <TodoList
+              todosState={todosState}
+              accessToken={accessTokenState.accessToken}
+            />
           </div>
         </div>
       ) : (

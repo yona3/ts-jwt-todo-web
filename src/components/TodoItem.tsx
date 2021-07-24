@@ -1,16 +1,38 @@
-import type { ChangeEventHandler, VFC } from "react";
+import type { ChangeEventHandler, Dispatch, SetStateAction, VFC } from "react";
 import { useState } from "react";
+import { apiPath, fetcher } from "src/lib/fetcher";
 import type { Todo } from "src/types";
 
 type Props = {
   todo: Todo;
+  setTodos: Dispatch<SetStateAction<Todo[] | undefined>>;
+  accessToken: string;
 };
 
-export const TodoItem: VFC<Props> = ({ todo }) => {
+export const TodoItem: VFC<Props> = ({ todo, setTodos, accessToken }) => {
   const [isDone, setIsDone] = useState(todo.isDone);
 
   const handleChangeIsDone: ChangeEventHandler<HTMLInputElement> = () =>
     setIsDone((prev) => !prev);
+
+  const handleDeleteTodo = async (): Promise<void> => {
+    try {
+      const res = await fetcher(apiPath.todos.url(todo.uuid), {
+        method: "DELETE",
+        accessToken,
+      });
+      const data = await res.json();
+      console.log("data: ", data);
+      if (!data.ok) return;
+
+      // deleted todo
+      setTodos(
+        (prev) => prev && prev.filter((item) => item.uuid !== todo.uuid)
+      );
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   return (
     <div
@@ -29,7 +51,9 @@ export const TodoItem: VFC<Props> = ({ todo }) => {
         <p>{todo.title}</p>
       </div>
       <div>
-        <button className="text-red-700">[x]</button>
+        <button className="font-bold text-black" onClick={handleDeleteTodo}>
+          [x]
+        </button>
       </div>
     </div>
   );
