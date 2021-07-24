@@ -3,13 +3,13 @@ const root = "http://localhost:8080";
 
 export const apiPath = {
   users: {
-    url: () => "/users",
+    url: (): string => "/users",
   },
   todos: {
-    url: (todoId?: string) => (todoId ? `/todos/${todoId}` : `/todos`),
+    url: (todoId?: string): string => (todoId ? `/todos/${todoId}` : `/todos`),
   },
-  token: { url: () => "/token" },
-  refreshToken: { url: () => "/refresh-token" },
+  token: { url: (): string => "/token" },
+  refreshToken: { url: (): string => "/refresh-token" },
 };
 
 type Method = "GET" | "POST" | "PATCH" | "DELETE";
@@ -27,7 +27,7 @@ export const fetcher = (
     };
     accessToken?: string;
   }
-) => {
+): Promise<Response> => {
   const createHeaders = (): HeadersInit | undefined => {
     if (!options) return;
 
