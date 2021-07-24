@@ -60,7 +60,12 @@ const Index: NextPage = () => {
         <div>
           {accessToken && (
             <div className="mx-auto w-full max-w-xl">
-              {user && <Main user={user} />}
+              {user && (
+                <Main
+                  userState={{ user, setUser }}
+                  setAccessToken={setAccessToken}
+                />
+              )}
               {!user && (
                 <div className="text-center text-white">
                   user is null or undefined.
