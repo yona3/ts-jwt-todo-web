@@ -43,7 +43,7 @@ export const AuthForm: VFC<Props> = ({ setAccessToken }) => {
 
         setAccessToken(data.accessToken);
       } else if (formType === "register") {
-        const res = await fetcher(apiPath.users.url(), {
+        const res = await fetcher(apiPath.user.url(), {
           method: "POST",
           body,
         });

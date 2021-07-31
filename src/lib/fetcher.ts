@@ -2,8 +2,8 @@
 const root = "http://localhost:8080";
 
 export const apiPath = {
-  users: {
-    url: (): string => "/users",
+  user: {
+    url: (): string => "/user",
   },
   todos: {
     url: (todoId?: string): string => (todoId ? `/todos/${todoId}` : `/todos`),

@@ -36,7 +36,7 @@ const Index: NextPage = () => {
 
   const handleFetchUser = async (): Promise<void> => {
     try {
-      const res = await fetcher(apiPath.users.url(), {
+      const res = await fetcher(apiPath.user.url(), {
         method: "GET",
         accessToken,
       });
